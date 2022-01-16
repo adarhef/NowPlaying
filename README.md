@@ -1,7 +1,7 @@
 # Now Playing
 
 Now Playing is a widget that tracks and visualizes what's playing on iTunes (Spotify should also be possible, untested as of this moment).
-I made this for [my Twitch stream][https://twitch.tv/furiousgallus] and thought I'd share :)
+I made this for [my Twitch stream](https://twitch.tv/furiousgallus) and thought I'd share :)
 
 ## Installation
 
@@ -34,7 +34,7 @@ You'd have to install python and edit the `start_now_playing.bat` file to run th
 ## Contributing
 
 Right now only Windows is supported. 
-This is because at the current state of the repo, I'm using [Snip][https://github.com/dlrudie/Snip], which is Windows-only.
+This is because at the current state of the repo, I'm using [Snip](https://github.com/dlrudie/Snip), which is Windows-only.
 In principle any solution which can save a few separate files to the filesystem to be read by the widget, can still work.
 It's my understanding that Tuna can be used in this way, but I could not figure out how to use it properly.
 
