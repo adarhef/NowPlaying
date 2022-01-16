@@ -2,7 +2,7 @@
 
 https://user-images.githubusercontent.com/6278531/149660344-6e381a41-6dad-4fea-b54f-d42108394e13.mp4
 
-Now Playing is a webpage widget that tracks and visualizes what's playing on iTunes (Spotify should also be possible, untested as of this moment).
+Now Playing is a webpage widget that tracks and visualizes what's playing on iTunes and Spotify (Desktop App only, it seems).
 I made this for [my Twitch stream](https://twitch.tv/furiousgallus) and thought I'd share :)
 
 Initially adapted from [Zyphen's Now Playing overlay](https://obsproject.com/forum/resources/zyphens-now-playing-overlay.1026/), my version fixes various issues and changes the design to something that's more to my liking.
