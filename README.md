@@ -25,7 +25,7 @@ If you'd like to use this whole package as-is, these are the first-time instruct
 
 ## Usage
 
-Run the `start_now_playing.bat` batch file. 
+Run the `start_now_playing.bat` batch file.
 This will launch Snip and the server (And if you're using iTunes, conveniently it launches it too). 
 
 Shutting everything down has to be done manually:
@@ -34,8 +34,7 @@ Shutting everything down has to be done manually:
 
 ## Notes
 
-There's a python server included as well. It is unused, but can be used if you're having trouble with the Apache server (which is more performant).
-You'd have to install python and edit the `start_now_playing.bat` file to run the python server instead.
+There's a python server included as well. If you're having trouble with the Apache server, you can try installing Python from the Microsoft Store and run `start_now_playing_python.bat` instead.
 
 ## Contributing
 
