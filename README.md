@@ -1,5 +1,9 @@
 # Now Playing
 
+
+https://user-images.githubusercontent.com/6278531/149660344-6e381a41-6dad-4fea-b54f-d42108394e13.mp4
+
+
 Now Playing is a widget that tracks and visualizes what's playing on iTunes (Spotify should also be possible, untested as of this moment).
 I made this for [my Twitch stream](https://twitch.tv/furiousgallus) and thought I'd share :)
 
