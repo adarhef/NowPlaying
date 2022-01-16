@@ -21,7 +21,7 @@ If you'd like to use this whole package as-is, these are the first-time instruct
 * Right-click and quit `Snip` from the tray.
 * Set up a Browser Source in OBS (**REQUIRES OBS 27.2 AND UP**): 
     * I'd say a good size for a 720p stream is 120 height and at least 500 width, and put it in the bottom left of your scene. 
-    * In the URL type `localhost:8000`, and press OK.
+    * In the URL type `http://localhost:8000`, and press OK.
 
 ## Usage
 
