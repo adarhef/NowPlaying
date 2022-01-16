@@ -12,7 +12,7 @@ const checkUpdate = async() => {
     try {
         [newArtist, newSong, newAlbum] = await Promise.all(promises);
 
-        if (newSong != currentSong && newArtist != currentArtist && newAlbum != currentAlbum) {
+        if (newSong != currentSong || newArtist != currentArtist || newAlbum != currentAlbum) {
             await displayData();
         }
     } catch (error) {
