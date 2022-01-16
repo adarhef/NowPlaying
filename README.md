@@ -45,5 +45,11 @@ It's my understanding that Tuna can be used in this way, but I could not figure 
 
 Anyway, pull requests are more than welcome to address any issue you see and expand on this project further.
 
+## Donations
+
+I'm humbled to have been asked for a donation link, so I set one up:
+
+[![](https://www.paypalobjects.com/en_US/IL/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/donate/?hosted_button_id=2C294FLX63PDQ)
+
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
