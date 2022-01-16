@@ -16,7 +16,7 @@ Download the whole repo as a ZIP and extract it somewhere.
 If you'd like to use this whole package as-is, these are the first-time instructions:
 * Set up Snip: 
     * Navigate to the `Snip` folder and run `Snip.exe`.
-    * Right click the tray icon, pick your player (I only tested iTunes), check `Save Album Artwork` and `Save Information Separately`.
+    * Right click the tray icon, pick your player, check `Save Album Artwork` and `Save Information Separately`.
     * Optional: If you'd like the player to hide if you pause your music, check `Empty File if No Track Playing`.
 * Right-click and quit `Snip` from the tray.
 * Set up a Browser Source in OBS (**REQUIRES OBS 27.2 AND UP**): 
