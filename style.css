@@ -11,6 +11,7 @@ body {
 #albumimage {
     box-shadow: #000 0px 0 12px, #000 0px 0 12px, #000 0px 0 12px;
     border-radius: 12px;
+    flex-shrink: 0;
 }
 
 #verticalstack {
