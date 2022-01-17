@@ -25,7 +25,7 @@ If you'd like to use this whole package as-is, these are the first-time instruct
 
 ## Usage
 
-Run the `start_now_playing.bat` batch file.
+Run the `start_now_playing.bat` batch file (NOT as admin).
 This will launch Snip and the server (And if you're using iTunes, conveniently it launches it too). 
 
 Shutting everything down has to be done manually:
