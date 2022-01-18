@@ -34,68 +34,77 @@ const displayData = async() => {
 
     if (currentSong.length == 0 && newSong.length > 0) {
         // Entrance transition
-        await getAlbumImage().then((image) => {
-            albumImage.src = image;
-        });
-        await animateCSS('#albumimage', 'fadeInUp');
-
+        await slideUpAlbumImage(albumImage).catch(() => {});
         song.innerHTML = newSong;
         artist.innerHTML = newArtist;
-        await Promise.all([animateCSS('#song', 'fadeInLeft'), animateCSS('#artist', 'fadeInLeft')]);
+        await Promise.all([showSong(song), showArtist(artist)])
 
     } else if (currentSong.length > 0 && newSong.length == 0) {
         // Exit transition
-        await Promise.all([
-            animateCSS('#artist', 'fadeOutLeft').then(() => { artist.innerHTML = ""; }),
-            animateCSS('#song', 'fadeOutLeft').then(() => { song.innerHTML = ""; })
-        ]);
-        await animateCSS('#albumimage', 'fadeOutDown').then(() => {
-            albumImage.removeAttribute('src');
-        });
+        await Promise.all([hideArtist(artist), hideSong(song)]);
+        await slideDownAlbumImage(albumImage);
     } else {
         // Update transition
-        var promises = [];
-
         if (currentAlbum != newAlbum) {
-            promises.push(updateAlbumImage(albumImage));
+            albumImage.style.setProperty('animation-delay', '0.3s');
+            await Promise.all([fadeOutAlbumImage(albumImage), hideArtist(artist), hideSong(song)]);
+            albumImage.style.removeProperty('animation-delay');
+            await Promise.all([fadeInAlbumImage(albumImage).catch(() => {}), showArtist(artist), showSong(song)]);
+        } else if (currentArtist != newArtist) {
+            await Promise.all([hideArtist(artist), hideSong(song)]);
+            await Promise.all([showArtist(artist), showSong(song)]);
+        } else {
+            await hideSong(song);
+            await showSong(song);
         }
-
-        if (currentArtist != newArtist) {
-            promises.push(updateArtist(artist));
-        }
-
-        promises.push(updateSong(song));
-
-        await Promise.all(promises);
     }
     currentArtist = newArtist;
     currentSong = newSong;
     currentAlbum = newAlbum;
 }
 
-const updateAlbumImage = async(albumImage) => {
-    albumImage.style.setProperty('--animate-duration', '0.5s');
-    await animateCSS('#albumimage', 'fadeOut').then(() => { albumImage.src = ""; });
-    albumImage.src = await getAlbumImage();
-    await animateCSS('#albumimage', 'fadeIn');
-    albumImage.style.removeProperty('--animate-duration');
+const hideElement = async(element, animation) => {
+    await animateCSS(`#${element.id}`, animation);
+    element.style.setProperty('display', 'none');
+}
+const showElement = async(element, animation) => {
+    element.style.removeProperty('display');
+    await animateCSS(`#${element.id}`, animation);
 }
 
-const updateSong = async(song) => {
-    await animateCSS('#song', 'fadeOutLeft').then(() => { song.innerHTML = ""; });
+const showSong = async(song) => {
     song.innerHTML = newSong;
-    await animateCSS('#song', 'fadeInLeft');
+    await showElement(song, 'fadeInLeft');
 }
-
-const updateArtist = async(artist) => {
-    await animateCSS('#artist', 'fadeOutLeft').then(() => { artist.innerHTML = ""; });
+const showArtist = async(artist) => {
     artist.innerHTML = newArtist;
-    await animateCSS('#artist', 'fadeInLeft');
+    await showElement(artist, 'fadeInLeft');
 }
 
-const getAlbumImage = () => fetch('Snip/Snip_Artwork.jpg')
+const hideSong = async(song) => hideElement(song, 'fadeOutLeft')
+const hideArtist = async(artist) => hideElement(artist, 'fadeOutLeft')
+
+const slideUpAlbumImage = async(albumImage) => {
+    await updateAlbumImage(albumImage);
+    await showElement(albumImage, 'fadeInUp');
+}
+const fadeInAlbumImage = async(albumImage) => {
+    await updateAlbumImage(albumImage);
+    await showElement(albumImage, 'fadeIn');
+}
+
+const slideDownAlbumImage = async(albumImage) => hideElement(albumImage, 'fadeOutDown')
+const fadeOutAlbumImage = async(albumImage) => hideElement(albumImage, 'fadeOut')
+
+const updateAlbumImage = async(albumImage) => fetch('Snip/Snip_Artwork.jpg')
     .then(response => response.blob())
-    .then(blob => URL.createObjectURL(blob))
+    .then(blob => {
+        if (blob.size < 100) {
+            throw "Image is too small, intepreting as missing artwork"
+        }
+        albumImage.src = URL.createObjectURL(blob);
+    })
+
 
 const animateCSS = (element, animation, prefix = 'animate__') =>
     // We create a Promise and return it
@@ -103,6 +112,10 @@ const animateCSS = (element, animation, prefix = 'animate__') =>
         const animationName = `${prefix}${animation}`;
         const node = document.querySelector(element);
 
+        if (node.style.display == "none") {
+            resolve('Element is hidden, nothing to animate');
+            return
+        }
         node.classList.add(`${prefix}animated`, animationName);
 
         // When the animation ends, we clean the classes and resolve the Promise
