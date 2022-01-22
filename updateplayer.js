@@ -35,8 +35,6 @@ const displayData = async() => {
     if (currentSong.length == 0 && newSong.length > 0) {
         // Entrance transition
         await slideUpAlbumImage(albumImage).catch(() => {});
-        song.innerHTML = newSong;
-        artist.innerHTML = newArtist;
         await Promise.all([showSong(song), showArtist(artist)])
 
     } else if (currentSong.length > 0 && newSong.length == 0) {

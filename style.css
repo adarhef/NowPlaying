@@ -3,9 +3,10 @@
 body {
     font-family: "Fira Code", monospace;
     display: flex;
-    padding: 12px;
     /* Body height should be restricted to the viewport size, minus the top and bottom padding */
     height: calc(100vh - 12px - 12px);
+    font-size: 17vh;
+    padding: 12px;
 }
 
 #albumimage {
@@ -25,31 +26,32 @@ body {
 
 #artist {
     color: hsl(34deg 75% 72%);
-    text-shadow: #000 0px 0 12px, #000 0px 0 12px, #000 0px 0 12px, #000 0px 0 12px, #000 0px 0 12px, #000 0px 0 12px, #000 0px 0 12px;
+    text-shadow: #000 0px 0 12px, #000 0px 0 12px, #000 0px 0 12px, #000 0px 0 12px, #000 0px 0 12px, #000 0px 0 12px, #000 0px 0 12px, #000 0px 0 12px, #000 0px 0 12px;
     font-weight: 600;
-    font-size: 17vh;
-    padding-left: 12px;
+    padding: 12px;
     margin-top: 0;
     margin-bottom: 0;
     margin-left: 8px;
     animation-delay: 0.05s;
-    -webkit-line-clamp: 1;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 #song {
     color: #ffffff;
-    text-shadow: #000 0px 0 12px, #000 0px 0 12px, #000 0px 0 12px, #000 0px 0 12px, #000 0px 0 12px, #000 0px 0 12px, #000 0px 0 12px;
+    text-shadow: #000 0px 0 12px, #000 0px 0 12px, #000 0px 0 12px, #000 0px 0 12px, #000 0px 0 12px, #000 0px 0 12px, #000 0px 0 12px, #000 0px 0 12px, #000 0px 0 12px;
     font-weight: 400;
-    font-size: 17vh;
     padding-left: 12px;
+    padding-bottom: 20px;
+    padding-right: 5px;
     margin-left: 8px;
     margin-top: 0;
     margin-bottom: 0;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
 }
 
 p {
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
     overflow: hidden;
 }
