@@ -7,7 +7,7 @@ I made this for [my Twitch stream](https://twitch.tv/furiousgallus) and thought 
 
 Initially adapted from [Zyphen's Now Playing overlay](https://obsproject.com/forum/resources/zyphens-now-playing-overlay.1026/), my version fixes various issues and changes the design to something that's more to my liking.
 
-It also does not require Tuna as it's bundled with its own server and [Snip](https://github.com/dlrudie/Snip).
+It also does not require Tuna as it's bundled with [Snip](https://github.com/dlrudie/Snip).
 
 ## Installation
 
