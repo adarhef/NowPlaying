@@ -20,7 +20,7 @@ Download the latest release from the Releases page and extract it somewhere.
 * Right-click and quit `Snip` from the tray.
 * Set up a Browser Source in OBS (**REQUIRES OBS 27.2 AND UP**): 
     * I'd say a good size for a 720p stream is 120 height and at least 500 width, and put it in the bottom left of your scene. 
-    * Tick the `Local file` checkbox`Browse` Load the `index.html` as a Local file.
+    * Tick the `Local file` checkbox, click `Browse` and select the `index.html` file.
 
 ## Usage
 
