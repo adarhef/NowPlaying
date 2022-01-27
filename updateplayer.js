@@ -43,7 +43,7 @@ const displayData = async() => {
         await slideDownAlbumImage(albumImage);
     } else {
         // Update transition
-        if (currentAlbum != newAlbum) {
+        if (currentAlbum != newAlbum || newAlbum.length == 0) {
             albumImage.style.setProperty('animation-delay', '0.3s');
             await Promise.all([fadeOutAlbumImage(albumImage), hideArtist(artist), hideSong(song)]);
             albumImage.style.removeProperty('animation-delay');
