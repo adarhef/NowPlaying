@@ -36,7 +36,9 @@ Shutting everything down has to be done manually:
 ## Notes
 
 If you want a solution for macOS, check out [NowPlayingRetreiver](https://github.com/adarhef/NowPlayingRetriever). It can be used with this widget.
+
 This widget comes bundled with Snip and so offers only Windows support out of the box.
+
 In principle any solution which can save a few separate files to the filesystem to be read by the widget, can still work.
 It's my understanding that Tuna can be used in this way, but I could not figure out how to use it properly.
 
