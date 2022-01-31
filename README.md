@@ -35,8 +35,8 @@ Shutting everything down has to be done manually:
 
 ## Notes
 
-Right now only Windows is supported. 
-This is because at the current state of the repo, I'm using [Snip](https://github.com/dlrudie/Snip), which is Windows-only.
+If you want a solution for macOS, check out [NowPlayingRetreiver](https://github.com/adarhef/NowPlayingRetriever). It can be used with this widget.
+This widget comes bundled with Snip and so offers only Windows support out of the box.
 In principle any solution which can save a few separate files to the filesystem to be read by the widget, can still work.
 It's my understanding that Tuna can be used in this way, but I could not figure out how to use it properly.
 
@@ -45,7 +45,7 @@ It's my understanding that Tuna can be used in this way, but I could not figure 
 In order to run the widget in Chrome it's necessary to serve the html from a server. I bundled an Apache and Python servers, that can be run with `start_now_playing.bat` and `start_now_playing_python.bat` respectively. Pick whatever works, Apache works a bit better though.
 This will allow you to run the widget from `http://localhost:8000` in Chrome and mess with anything you like.
 
-Anyway, pull requests are more than welcome to address any issue you see and expand on this project further.
+Pull requests are more than welcome to address any issue you see and expand on this project further. It'd be best to discuss your ideas in an Issue first though.
 
 ## Donations
 
