@@ -24,10 +24,10 @@ Download the latest release from the Releases page and extract it somewhere.
 
 ## Usage
 
-For use in OBS, run Snip.exe and keep in the background. simply quit it when you're done.
+For use in OBS, run Snip.exe and keep in the background (And if you're using iTunes, conveniently it launches it too). simply quit it when you're done.
 
 For contributors who want to run the widget in a browser, run the `start_now_playing.bat` batch file (NOT as admin).
-This will launch Snip and the server (And if you're using iTunes, conveniently it launches it too). 
+This will launch Snip and the Apache server. 
 
 Shutting everything down has to be done manually:
 * Close the Apache server window.
