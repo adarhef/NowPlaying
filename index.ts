@@ -6,8 +6,14 @@ var currentSong = "";
 var currentArtist = "";
 var currentAlbum = "";
 
-const checkUpdate = async() => {
-    const promises = [fetchText("Snip/Snip_Artist.txt"), fetchText("Snip/Snip_Track.txt"), fetchText("Snip/Snip_Album.txt")];
+const timeout = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+
+const checkUpdate = async () => {
+    const promises = [
+        fetchText("Snip/Snip_Artist.txt"), 
+        fetchText("Snip/Snip_Track.txt"), 
+        fetchText("Snip/Snip_Album.txt")
+    ];
 
     try {
         [newArtist, newSong, newAlbum] = await Promise.all(promises);
@@ -18,19 +24,19 @@ const checkUpdate = async() => {
     } catch (error) {
         console.error(error);
     }
-
-    setTimeout(checkUpdate, 2000);
+    await timeout(2000);
+    await checkUpdate();
 }
 
-const fetchText = async url =>
+const fetchText = async (url: string) =>
     fetch(url)
     .then(response => response.text())
     .then(text => text.replace(/&/g, "&amp;"))
 
-const displayData = async() => {
-    const song = document.getElementById("song");
-    const artist = document.getElementById("artist");
-    const albumImage = document.getElementById("albumimage");
+const displayData = async () => {
+    const song = document.getElementById("song")!;
+    const artist = document.getElementById("artist")!;
+    const albumImage = document.getElementById("albumimage") as HTMLImageElement;
 
     if (currentSong.length == 0 && newSong.length > 0) {
         // Entrance transition
@@ -61,40 +67,40 @@ const displayData = async() => {
     currentAlbum = newAlbum;
 }
 
-const hideElement = async(element, animation) => {
-    await animateCSS(`#${element.id}`, animation);
+const hideElement = async (element: HTMLElement, animation: string) => {
+    await animateCSS(`#${element.id}` as keyof HTMLElementTagNameMap, animation);
     element.style.setProperty('display', 'none');
 }
-const showElement = async(element, animation) => {
+const showElement = async (element: HTMLElement, animation: string) => {
     element.style.removeProperty('display');
-    await animateCSS(`#${element.id}`, animation);
+    await animateCSS(`#${element.id}` as keyof HTMLElementTagNameMap, animation);
 }
 
-const showSong = async(song) => {
+const showSong = async (song: HTMLElement) => {
     song.innerHTML = newSong;
     await showElement(song, 'fadeInLeft');
 }
-const showArtist = async(artist) => {
+const showArtist = async (artist: HTMLElement) => {
     artist.innerHTML = newArtist;
     await showElement(artist, 'fadeInLeft');
 }
 
-const hideSong = async(song) => hideElement(song, 'fadeOutLeft')
-const hideArtist = async(artist) => hideElement(artist, 'fadeOutLeft')
+const hideSong = async (song: HTMLElement) => hideElement(song, 'fadeOutLeft')
+const hideArtist = async (artist: HTMLElement) => hideElement(artist, 'fadeOutLeft')
 
-const slideUpAlbumImage = async(albumImage) => {
+const slideUpAlbumImage = async (albumImage: HTMLImageElement) => {
     await updateAlbumImage(albumImage);
     await showElement(albumImage, 'fadeInUp');
 }
-const fadeInAlbumImage = async(albumImage) => {
+const fadeInAlbumImage = async (albumImage: HTMLImageElement) => {
     await updateAlbumImage(albumImage);
     await showElement(albumImage, 'fadeIn');
 }
 
-const slideDownAlbumImage = async(albumImage) => hideElement(albumImage, 'fadeOutDown')
-const fadeOutAlbumImage = async(albumImage) => hideElement(albumImage, 'fadeOut')
+const slideDownAlbumImage = async (albumImage: HTMLElement) => hideElement(albumImage, 'fadeOutDown')
+const fadeOutAlbumImage = async (albumImage: HTMLElement) => hideElement(albumImage, 'fadeOut')
 
-const updateAlbumImage = async(albumImage) => fetch('Snip/Snip_Artwork.jpg')
+const updateAlbumImage = async (albumImage: HTMLImageElement) => fetch('Snip/Snip_Artwork.jpg')
     .then(response => response.blob())
     .then(blob => {
         if (blob.size < 100) {
@@ -104,11 +110,15 @@ const updateAlbumImage = async(albumImage) => fetch('Snip/Snip_Artwork.jpg')
     })
 
 
-const animateCSS = (element, animation, prefix = 'animate__') =>
-    // We create a Promise and return it
-    new Promise((resolve, reject) => {
+const animateCSS = (element: keyof HTMLElementTagNameMap, animation: string, prefix = 'animate__') =>
+    new Promise((resolve) => {
         const animationName = `${prefix}${animation}`;
         const node = document.querySelector(element);
+
+        if (!node) {
+            resolve("Element couldn't be found, nothing to animate");
+            return;
+        }
 
         if (node.style.display == "none") {
             resolve('Element is hidden, nothing to animate');
@@ -117,11 +127,13 @@ const animateCSS = (element, animation, prefix = 'animate__') =>
         node.classList.add(`${prefix}animated`, animationName);
 
         // When the animation ends, we clean the classes and resolve the Promise
-        function handleAnimationEnd(event) {
+        function handleAnimationEnd(event: Event) {
             event.stopPropagation();
-            node.classList.remove(`${prefix}animated`, animationName);
+            node!.classList.remove(`${prefix}animated`, animationName);
             resolve('Animation ended');
         }
 
         node.addEventListener('animationend', handleAnimationEnd, { once: true });
     });
+
+document.addEventListener("DOMContentLoaded", checkUpdate);
