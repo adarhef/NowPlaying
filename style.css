@@ -24,7 +24,7 @@ body {
     min-width: 0;
 }
 
-#artist {
+#topLabel {
     color: hsl(34deg 75% 72%);
     text-shadow: #000 0px 0 12px, #000 0px 0 12px, #000 0px 0 12px, #000 0px 0 12px, #000 0px 0 12px, #000 0px 0 12px, #000 0px 0 12px, #000 0px 0 12px, #000 0px 0 12px;
     font-weight: 600;
@@ -37,7 +37,7 @@ body {
     white-space: nowrap;
 }
 
-#song {
+#bottomLabel {
     color: #ffffff;
     text-shadow: #000 0px 0 12px, #000 0px 0 12px, #000 0px 0 12px, #000 0px 0 12px, #000 0px 0 12px, #000 0px 0 12px, #000 0px 0 12px, #000 0px 0 12px, #000 0px 0 12px;
     font-weight: 400;

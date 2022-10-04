@@ -8,10 +8,10 @@ var currentAlbum = "";
 
 const timeout = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
-const checkUpdate = async () => {
+const checkMetadata = async () => {
     const promises = [
-        fetchText("Snip/Snip_Artist.txt"), 
-        fetchText("Snip/Snip_Track.txt"), 
+        fetchText("Snip/Snip_Artist.txt"),
+        fetchText("Snip/Snip_Track.txt"),
         fetchText("Snip/Snip_Album.txt")
     ];
 
@@ -19,47 +19,67 @@ const checkUpdate = async () => {
         [newArtist, newSong, newAlbum] = await Promise.all(promises);
 
         if (newSong != currentSong || newArtist != currentArtist || newAlbum != currentAlbum) {
-            await displayData();
+            await animateMetadataTransition();
         }
     } catch (error) {
         console.error(error);
     }
     await timeout(2000);
-    await checkUpdate();
+    await checkMetadata();
 }
 
 const fetchText = async (url: string) =>
     fetch(url)
-    .then(response => response.text())
-    .then(text => text.replace(/&/g, "&amp;"))
+        .then(response => response.text())
+        .then(text => text.replace(/&/g, "&amp;"))
 
-const displayData = async () => {
-    const song = document.getElementById("song")!;
-    const artist = document.getElementById("artist")!;
-    const albumImage = document.getElementById("albumimage") as HTMLImageElement;
+const getValueForTopLabel = async () => {
+    const result = await fetch("settings.json");
+    const json = await result.json();
+
+    switch (json["topLabel"]) {
+        case "artist": return newArtist;
+        case "track": return newSong;
+        case "album": return newAlbum;
+        default: return newArtist;
+    }
+}
+
+const getValueForBottomLabel = async () => {
+    const result = await fetch("settings.json");
+    const json = await result.json();
+    
+    switch (json["bottomLabel"]) {
+        case "artist": return newArtist;
+        case "track": return newSong;
+        case "album": return newAlbum;
+        default: return newSong;
+    }
+}
+
+const animateMetadataTransition = async () => {
+    const topValue = await getValueForTopLabel();
+    const bottomValue = await getValueForBottomLabel();
 
     if (currentSong.length == 0 && newSong.length > 0) {
         // Entrance transition
-        await slideUpAlbumImage(albumImage).catch(() => {});
-        await Promise.all([showSong(song), showArtist(artist)])
-
-    } else if (currentSong.length > 0 && newSong.length == 0) {
+        await slideUpAlbumImage().catch(() => { });
+        await Promise.all([showBottomLabel(bottomValue), showTopLabel(topValue)]);
+    } else if (currentSong.length > 0 && bottomValue.length == 0) {
         // Exit transition
-        await Promise.all([hideArtist(artist), hideSong(song)]);
-        await slideDownAlbumImage(albumImage);
+        await Promise.all([hideTopLabel(), hideBottomLabel()]);
+        await slideDownAlbumImage();
     } else {
         // Update transition
         if (currentAlbum != newAlbum || newAlbum.length == 0) {
-            albumImage.style.setProperty('animation-delay', '0.3s');
-            await Promise.all([fadeOutAlbumImage(albumImage), hideArtist(artist), hideSong(song)]);
-            albumImage.style.removeProperty('animation-delay');
-            await Promise.all([fadeInAlbumImage(albumImage).catch(() => {}), showArtist(artist), showSong(song)]);
+            await Promise.all([fadeOutAlbumImage(), hideTopLabel(), hideBottomLabel()]);
+            await Promise.all([fadeInAlbumImage().catch(() => { }), showTopLabel(topValue), showBottomLabel(bottomValue)]);
         } else if (currentArtist != newArtist) {
-            await Promise.all([hideArtist(artist), hideSong(song)]);
-            await Promise.all([showArtist(artist), showSong(song)]);
+            await Promise.all([hideTopLabel(), hideBottomLabel()]);
+            await Promise.all([showTopLabel(topValue), showBottomLabel(bottomValue)]);
         } else {
-            await hideSong(song);
-            await showSong(song);
+            await hideBottomLabel();
+            await showBottomLabel(bottomValue);
         }
     }
     currentArtist = newArtist;
@@ -76,29 +96,47 @@ const showElement = async (element: HTMLElement, animation: string) => {
     await animateCSS(`#${element.id}` as keyof HTMLElementTagNameMap, animation);
 }
 
-const showSong = async (song: HTMLElement) => {
-    song.innerHTML = newSong;
-    await showElement(song, 'fadeInLeft');
+const showBottomLabel = async (innerHTML: string) => {
+    const bottomLabel = document.getElementById("bottomLabel")!;
+    bottomLabel.innerHTML = innerHTML;
+    await showElement(bottomLabel, 'fadeInLeft');
 }
-const showArtist = async (artist: HTMLElement) => {
-    artist.innerHTML = newArtist;
-    await showElement(artist, 'fadeInLeft');
+const showTopLabel = async (innerHTML: string) => {
+    const topLabel = document.getElementById("topLabel")!;
+    topLabel.innerHTML = innerHTML;
+    await showElement(topLabel, 'fadeInLeft');
 }
 
-const hideSong = async (song: HTMLElement) => hideElement(song, 'fadeOutLeft')
-const hideArtist = async (artist: HTMLElement) => hideElement(artist, 'fadeOutLeft')
+const hideBottomLabel = async () => {
+    const bottomLabel = document.getElementById("bottomLabel")!;
+    await hideElement(bottomLabel, 'fadeOutLeft');
+}
+const hideTopLabel = async () => {
+    const topLabel = document.getElementById("topLabel")!;
+    await hideElement(topLabel, 'fadeOutLeft');
+}
 
-const slideUpAlbumImage = async (albumImage: HTMLImageElement) => {
+const slideUpAlbumImage = async () => {
+    const albumImage = document.getElementById("albumimage") as HTMLImageElement;
     await updateAlbumImage(albumImage);
     await showElement(albumImage, 'fadeInUp');
 }
-const fadeInAlbumImage = async (albumImage: HTMLImageElement) => {
+const fadeInAlbumImage = async () => {
+    const albumImage = document.getElementById("albumimage") as HTMLImageElement;
+    albumImage.style.removeProperty('animation-delay');
     await updateAlbumImage(albumImage);
     await showElement(albumImage, 'fadeIn');
 }
 
-const slideDownAlbumImage = async (albumImage: HTMLElement) => hideElement(albumImage, 'fadeOutDown')
-const fadeOutAlbumImage = async (albumImage: HTMLElement) => hideElement(albumImage, 'fadeOut')
+const slideDownAlbumImage = async () => {
+    const albumImage = document.getElementById("albumimage") as HTMLImageElement;
+    await hideElement(albumImage, 'fadeOutDown');
+}
+const fadeOutAlbumImage = async () => {
+    const albumImage = document.getElementById("albumimage") as HTMLImageElement;
+    albumImage.style.setProperty('animation-delay', '0.3s');
+    await hideElement(albumImage, 'fadeOut');
+}
 
 const updateAlbumImage = async (albumImage: HTMLImageElement) => fetch('Snip/Snip_Artwork.jpg')
     .then(response => response.blob())
@@ -108,7 +146,6 @@ const updateAlbumImage = async (albumImage: HTMLImageElement) => fetch('Snip/Sni
         }
         albumImage.src = URL.createObjectURL(blob);
     })
-
 
 const animateCSS = (element: keyof HTMLElementTagNameMap, animation: string, prefix = 'animate__') =>
     new Promise((resolve) => {
@@ -122,7 +159,7 @@ const animateCSS = (element: keyof HTMLElementTagNameMap, animation: string, pre
 
         if (node.style.display == "none") {
             resolve('Element is hidden, nothing to animate');
-            return
+            return;
         }
         node.classList.add(`${prefix}animated`, animationName);
 
@@ -136,4 +173,4 @@ const animateCSS = (element: keyof HTMLElementTagNameMap, animation: string, pre
         node.addEventListener('animationend', handleAnimationEnd, { once: true });
     });
 
-document.addEventListener("DOMContentLoaded", checkUpdate);
+document.addEventListener("DOMContentLoaded", checkMetadata);
