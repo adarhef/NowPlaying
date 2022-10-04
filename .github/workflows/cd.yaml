@@ -1,0 +1,42 @@
+name: DEPLOY
+on:
+  push:
+    branches:
+    - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Setup npm
+    - uses: actions/setup-node@v3
+
+    - name: Install TypeScript
+      run: npm install -g typescript
+    
+    - name: Compile
+      run: tsc
+
+    - name: Prepare dist folder
+      run: |
+        rm -rf dist
+        mkdir dist
+        cp index.html dist/index.html
+        cp style.css dist/style.css
+        cp animate.min.css dist/animate.min.css
+        cp index.js dist/index.js
+        cp settings.json dist/settings.json
+        cp -r Snip dist/Snip
+    
+    - name: ZIP dist folder
+      run: |
+        cd dist
+        zip NowPlaying *
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v2
+      with: 
+        name: NowPlaying
+        path: dist/NowPlaying.zip
