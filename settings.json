@@ -1,4 +1,5 @@
 {
     "topLabel": "artist",
-    "bottomLabel": "track"
+    "bottomLabel": "track",
+    "delayBeforeDisappearance": null
 }

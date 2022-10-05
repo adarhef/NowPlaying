@@ -33,34 +33,10 @@ const fetchText = async (url: string) =>
         .then(response => response.text())
         .then(text => text.replace(/&/g, "&amp;"))
 
-const getValueForTopLabel = async () => {
-    const result = await fetch("settings.json");
-    const json = await result.json();
-
-    switch (json["topLabel"]) {
-        case "artist": return newArtist;
-        case "track": return newSong;
-        case "album": return newAlbum;
-        default: return newArtist;
-    }
-}
-
-const getValueForBottomLabel = async () => {
-    const result = await fetch("settings.json");
-    const json = await result.json();
-    
-    switch (json["bottomLabel"]) {
-        case "artist": return newArtist;
-        case "track": return newSong;
-        case "album": return newAlbum;
-        default: return newSong;
-    }
-}
-
 const animateMetadataTransition = async () => {
     const topValue = await getValueForTopLabel();
     const bottomValue = await getValueForBottomLabel();
-
+    
     if (currentSong.length == 0 && newSong.length > 0) {
         // Entrance transition
         await slideUpAlbumImage().catch(() => { });
@@ -82,6 +58,16 @@ const animateMetadataTransition = async () => {
             await showBottomLabel(bottomValue);
         }
     }
+
+    const delayBeforeDisappearance = await getValueForDelayBeforeDisappearance();
+
+    if (delayBeforeDisappearance) {
+        // Delay and exit
+        await timeout(delayBeforeDisappearance * 1000)
+        await Promise.all([hideTopLabel(), hideBottomLabel()]);
+        await slideDownAlbumImage();
+    }
+
     currentArtist = newArtist;
     currentSong = newSong;
     currentAlbum = newAlbum;
@@ -172,5 +158,39 @@ const animateCSS = (element: keyof HTMLElementTagNameMap, animation: string, pre
 
         node.addEventListener('animationend', handleAnimationEnd, { once: true });
     });
+
+
+const getValueForTopLabel = async () => {
+    const result = await fetch("settings.json");
+    const json = await result.json();
+
+    switch (json["topLabel"]) {
+        case "artist": return newArtist;
+        case "track": return newSong;
+        case "album": return newAlbum;
+        default: return newArtist;
+    }
+}
+
+const getValueForBottomLabel = async () => {
+    const result = await fetch("settings.json");
+    const json = await result.json();
+    
+    switch (json["bottomLabel"]) {
+        case "artist": return newArtist;
+        case "track": return newSong;
+        case "album": return newAlbum;
+        default: return newSong;
+    }
+}
+
+const getValueForDelayBeforeDisappearance = async () => {
+    const result = await fetch("settings.json");
+    const json = await result.json();
+    
+    if (json["delayBeforeDisappearance"]) {
+        return new Number(json["delayBeforeDisappearance"]).valueOf();
+    }
+}
 
 document.addEventListener("DOMContentLoaded", checkMetadata);
