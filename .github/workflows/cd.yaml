@@ -33,10 +33,10 @@ jobs:
     - name: ZIP dist folder
       run: |
         cd dist
-        zip NowPlaying *
+        zip -r NowPlaying *
 
     - name: Upload artifact
       uses: actions/upload-artifact@v2
       with: 
-        name: NowPlaying
+        name: NowPlaying.zip
         path: dist/NowPlaying.zip
