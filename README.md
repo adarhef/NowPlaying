@@ -22,16 +22,17 @@ Download the latest release from the Releases page and extract it somewhere.
     * I'd say a good size for a 720p stream is 120 height and at least 500 width, and put it in the bottom left of your scene. 
     * Tick the `Local file` checkbox, click `Browse` and select the `index.html` file.
 
+
+## Configuration
+
+In the `settings.json` file these configuration options are available:
+• `topLabel` may be set to one of the following values: `artist`, `album` and `track`. Defaults to `artist`
+• `bottomLabel` may be set to one of the following values: `artist`, `album` and `track`. Defaults to `track`
+• `delayBeforeDisappearance` may be set to a number in seconds, which is a delay before the widget will disappear. Note that if you set this, track/playback changes will not be reflected until the delay has elapsed, as it is uninterruptible. Defaults to `null`
+
 ## Usage
 
-For use in OBS, run Snip.exe and keep in the background (And if you're using iTunes, conveniently it launches it too). simply quit it when you're done.
-
-For contributors who want to run the widget in a browser, run the `start_now_playing.bat` batch file (NOT as admin).
-This will launch Snip and the Apache server. 
-
-Shutting everything down has to be done manually:
-* Close the Apache server window.
-* Exit Snip from the system tray.
+For use in OBS, run Snip.exe and keep in the background (And if you're using iTunes, conveniently it launches it too). simply quit it when you're done and close Snip from the system tray.
 
 ## Notes
 
@@ -43,9 +44,6 @@ In principle any solution which can save a few separate files to the filesystem 
 It's my understanding that Tuna can be used in this way, but I could not figure out how to use it properly.
 
 ## Contributing
-
-In order to run the widget in Chrome it's necessary to serve the html from a server. I bundled an Apache and Python servers, that can be run with `start_now_playing.bat` and `start_now_playing_python.bat` respectively. Pick whatever works, Apache works a bit better though.
-This will allow you to run the widget from `http://localhost:8000` in Chrome and mess with anything you like.
 
 Pull requests are more than welcome to address any issue you see and expand on this project further. It'd be best to discuss your ideas in an Issue first though.
 
