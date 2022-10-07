@@ -26,9 +26,9 @@ Download the latest release from the Releases page and extract it somewhere.
 ## Configuration
 
 In the `settings.json` file these configuration options are available:
-• `topLabel` may be set to one of the following values: `artist`, `album` and `track`. Defaults to `artist`
-• `bottomLabel` may be set to one of the following values: `artist`, `album` and `track`. Defaults to `track`
-• `delayBeforeDisappearance` may be set to a number in seconds, which is a delay before the widget will disappear. Note that if you set this, track/playback changes will not be reflected until the delay has elapsed, as it is uninterruptible. Defaults to `null`
+* `topLabel` may be set to one of the following values: `artist`, `album` and `track`. Defaults to `artist`
+* `bottomLabel` may be set to one of the following values: `artist`, `album` and `track`. Defaults to `track`
+* `delayBeforeDisappearance` may be set to a number in seconds, which is a delay before the widget will disappear. Note that if you set this, track/playback changes will not be reflected until the delay has elapsed, as it is uninterruptible. Defaults to `null`
 
 ## Usage
 
